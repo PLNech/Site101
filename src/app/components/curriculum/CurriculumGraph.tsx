@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react';
-import courseData from './courseData';
+import * as courseDataModule from './courseData';
 import { categoryColors, transformCurriculumToGraphData, getUnlockedCourses, GraphNode, GraphData, GraphLink } from './courseUtils';
 import GraphVisualization from './GraphVisualization';
 import CourseDetails from './CourseDetails';
@@ -27,7 +27,7 @@ const CurriculumGraph: React.FC = () => {
       
       // Find starting nodes
       const startingNodeIds = data.nodes
-        .filter(node => node.isStartingNode)
+        .filter(node => node.isStartingNode === true)
         .map(node => node.id);
         
       setUnlockedCourses(startingNodeIds);
@@ -47,17 +47,6 @@ const CurriculumGraph: React.FC = () => {
     const newCompletedCourses = [...completedCourses, courseId];
     setCompletedCourses(newCompletedCourses);
     
-    // Find all courses that depend on this course
-    const dependentCourses = graphData.links
-      .filter(link => {
-        const sourceId = typeof link.source === 'object' ? link.source.id : link.source;
-        return sourceId === courseId;
-      })
-      .map(link => {
-        const targetId = typeof link.target === 'object' ? link.target.id : link.target;
-        return targetId;
-      });
-      
     // Get all unlocked courses based on what's completed
     const newUnlockedCourses = getUnlockedCourses(newCompletedCourses);
     setUnlockedCourses(newUnlockedCourses);
@@ -109,27 +98,27 @@ const CurriculumGraph: React.FC = () => {
   }
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col bg-gray-950 border border-gray-800 rounded-xl shadow-xl" ref={containerRef}>
-      <div className="p-6 border-b border-gray-800 backdrop-blur-sm">
-        <h2 className="text-2xl md:text-3xl font-bold text-primary font-mono">Curriculum <span className="text-white font-sans">Skill Tree</span></h2>
-        <p className="mt-2 text-gray-300 max-w-3xl">
+    <div className="w-full min-h-[80vh] flex flex-col bg-background border border-border rounded-xl shadow-xl" ref={containerRef}>
+      <div className="p-6 border-b border-border backdrop-blur-sm">
+        <h2 className="text-2xl md:text-3xl font-bold text-primary font-mono">Curriculum <span className="text-foreground font-sans">Skill Tree</span></h2>
+        <p className="mt-2 text-foreground max-w-3xl">
           Cette visualisation interactive montre les dépendances directes entre les cours. Survolez les nœuds pour plus de détails, 
           cliquez pour sélectionner un cours, et complétez-les pour débloquer les suivants.
         </p>
       </div>
       
       <div className="flex flex-1 flex-col lg:flex-row gap-4 p-4">
-        <div className="lg:w-3/4 h-[600px] sm:h-[700px] rounded-lg border border-gray-800 overflow-hidden relative flex flex-col">
+        <div className="lg:w-3/4 h-[600px] sm:h-[700px] rounded-lg border border-border overflow-hidden relative flex flex-col">
           {/* Tooltip element */}
           <div 
             ref={tooltipRef}
-            className="absolute z-10 bg-gray-900 text-white p-3 rounded-lg shadow-lg border border-gray-800 pointer-events-none opacity-0 transition-opacity duration-200"
+            className="absolute z-10 bg-card text-foreground p-3 rounded-lg shadow-lg border border-border pointer-events-none opacity-0 transition-opacity duration-200"
             style={{transform: "translateY(-100%)", maxWidth: "250px"}}
           >
             {hoveredNode && (
               <div>
-                <h3 className="font-bold text-sm mb-1 text-white">{hoveredNode.name}</h3>
-                <p className="text-xs text-gray-300 mb-1">{hoveredNode.description}</p>
+                <h3 className="font-bold text-sm mb-1 text-foreground">{hoveredNode.name}</h3>
+                <p className="text-xs text-foreground mb-1">{hoveredNode.description}</p>
                 <div className="flex justify-between text-xs mt-1">
                   <span 
                     className="px-1 rounded" 
@@ -140,7 +129,7 @@ const CurriculumGraph: React.FC = () => {
                   >
                     {hoveredNode.group}
                   </span>
-                  <span className="text-gray-200">
+                  <span className="text-foreground">
                     {isCourseCompleted(hoveredNode.id) 
                       ? "✅ Completed" 
                       : isCourseUnlocked(hoveredNode.id) 
@@ -155,7 +144,7 @@ const CurriculumGraph: React.FC = () => {
           {/* Graph container with horizontal scroll */}
           <div 
             ref={graphContainerRef}
-            className="flex-1 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-gray-900"
+            className="flex-1 overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-primary-dark scrollbar-track-background"
           >
             <GraphVisualization 
               graphData={graphData}
@@ -172,19 +161,19 @@ const CurriculumGraph: React.FC = () => {
           </div>
           
           {/* Horizontal scrollbar */}
-          <div className="px-4 py-2 border-t border-gray-800 bg-gray-900 backdrop-blur-sm">
+          <div className="px-4 py-2 border-t border-border bg-card backdrop-blur-sm">
             <input 
               type="range"
               min="0"
               max="100"
               value={scrollPosition}
               onChange={handleScrollChange}
-              className="w-full appearance-none h-2 bg-gray-800 rounded-full outline-none cursor-pointer"
+              className="w-full appearance-none h-2 bg-background rounded-full outline-none cursor-pointer"
               style={{
                 backgroundImage: `linear-gradient(to right, var(--primary) 0%, var(--primary) ${scrollPosition}%, var(--border) ${scrollPosition}%, var(--border) 100%)`
               }}
             />
-            <div className="flex justify-between text-gray-400 text-xs mt-1">
+            <div className="flex justify-between text-foreground text-xs mt-1">
               <span>Level 0</span>
               <span>Level {graphData.maxLevel}</span>
             </div>

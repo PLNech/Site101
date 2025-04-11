@@ -70,7 +70,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     svg.append("rect")
       .attr("width", totalGraphWidth)
       .attr("height", containerHeight)
-      .attr("fill", "#050505");
+      .attr("fill", "var(--background-dark)");
       
     const g = svg.append("g");
     
@@ -231,11 +231,11 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
         const targetCourseId = typeof d.target === 'object' ? d.target.id : d.target;
         
         if (completedCourses.includes(sourceCourseId) && completedCourses.includes(targetCourseId)) {
-          return "#2ecc71"; // Completed path is green
+          return "var(--secondary)"; // Completed path is green
         } else if (completedCourses.includes(sourceCourseId) && unlockedCourses.includes(targetCourseId)) {
           return `url(#link-gradient-${i})`; // Active path uses gradient
         } else {
-          return "#555"; // Locked path is gray
+          return "var(--muted)"; // Locked path is gray
         }
       })
       .attr("stroke-width", 2)
@@ -272,13 +272,13 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
         const targetCourseId = typeof d.target === 'object' ? d.target.id : d.target;
         
         if (completedCourses.includes(targetCourseId)) {
-          return "#2ecc71"; // Green for completed
+          return "var(--secondary)"; // Green for completed
         } else if (unlockedCourses.includes(targetCourseId)) {
           const targetNode = typeof d.target === 'object' ? d.target : 
             graphData.nodes.find(n => n.id === d.target);
           return getCategoryColor(targetNode?.group || '');
         } else {
-          return "#555"; // Gray for locked
+          return "var(--muted)"; // Gray for locked
         }
       })
       .attr("filter", (d: any) => {
@@ -306,20 +306,20 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("r", (d: any) => d.isStartingNode || d.isFinalNode ? 35 : 25)
       .attr("fill", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return "rgba(46, 204, 113, 0.2)"; // Green glow for completed
+          return "rgba(48, 225, 164, 0.2)"; // Green glow for completed
         } else if (isCourseUnlocked(d.id)) {
-          return "rgba(0,0,0,0.4)";
+          return "rgba(15, 10, 20, 0.4)";
         } else {
-          return "rgba(30,30,30,0.6)"; // Darker for locked
+          return "rgba(8, 6, 16, 0.6)"; // Darker for locked
         }
       })
       .attr("stroke", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return "#2ecc71"; // Green for completed
+          return "var(--secondary)"; // Green for completed
         } else if (isCourseUnlocked(d.id)) {
           return getCategoryColor(d.group);
         } else {
-          return "#555"; // Gray for locked
+          return "var(--border)"; // Gray for locked
         }
       })
       .attr("stroke-width", 3)
@@ -343,21 +343,21 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("r", (d: any) => d.isStartingNode || d.isFinalNode ? 25 : 18)
       .attr("fill", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return d3.color("#2ecc71")?.darker(0.5);
+          return d3.color("var(--secondary)")?.darker(0.5);
         } else if (isCourseUnlocked(d.id)) {
           const color = getCategoryColor(d.group);
           return d3.color(color)?.darker(0.8);
         } else {
-          return "#333"; // Dark gray for locked
+          return "var(--card)"; // Dark gray for locked
         }
       })
       .attr("stroke", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return "#2ecc71";
+          return "var(--secondary)";
         } else if (isCourseUnlocked(d.id)) {
           return getCategoryColor(d.group);
         } else {
-          return "#555";
+          return "var(--border)";
         }
       })
       .attr("stroke-width", 2);
@@ -369,11 +369,11 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("fill", "none")
       .attr("stroke", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return d3.color("#2ecc71")?.brighter(0.5);
+          return d3.color("var(--secondary)")?.brighter(0.5);
         } else if (isCourseUnlocked(d.id)) {
           return d3.color(getCategoryColor(d.group))?.brighter(0.5);
         } else {
-          return "#555";
+          return "var(--border)";
         }
       })
       .attr("stroke-width", 1.5)
@@ -386,7 +386,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("text-anchor", "middle")
       .attr("dy", 7)
       .attr("font-size", 20)
-      .attr("fill", "#fff")
+      .attr("fill", "var(--foreground)")
       .attr("filter", "url(#glow)")
       .text("✓");
     
@@ -396,7 +396,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("text-anchor", "middle")
       .attr("dy", 7)
       .attr("font-size", 16)
-      .attr("fill", "#888")
+      .attr("fill", "var(--muted)")
       .text("🔒");
       
     // Add year indicator
@@ -406,11 +406,11 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("font-size", 10)
       .attr("fill", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return "#9befc3"; // Light green
+          return "var(--secondary)"; // Light green
         } else if (isCourseUnlocked(d.id)) {
           return d3.color(getCategoryColor(d.group))?.brighter(0.8);
         } else {
-          return "#888";
+          return "var(--muted)";
         }
       })
       .attr("filter", (d: any) => isCourseUnlocked(d.id) ? "url(#glow)" : "none")
@@ -474,11 +474,11 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .attr("text-anchor", "middle")
       .attr("fill", (d: any) => {
         if (isCourseCompleted(d.id)) {
-          return "#9befc3"; // Light green
+          return "var(--secondary)"; // Light green
         } else if (isCourseUnlocked(d.id)) {
           return d3.color(getCategoryColor(d.group))?.brighter(1);
         } else {
-          return "#888"; // Gray for locked
+          return "var(--muted)"; // Gray for locked
         }
       })
       .attr("filter", (d: any) => isCourseUnlocked(d.id) ? "url(#glow)" : "none")

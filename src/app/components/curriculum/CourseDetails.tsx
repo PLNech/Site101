@@ -22,7 +22,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({
 }) => {
   if (!selectedNode) {
     return (
-      <div className="p-4 border rounded-lg shadow-md bg-gray-900 border-gray-800 text-gray-200">
+      <div className="p-4 border rounded-lg shadow-md bg-card border-border text-foreground">
         <p>Click on an unlocked skill node to see details and complete the course to unlock connected courses.</p>
       </div>
     );
@@ -40,71 +40,71 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({
   };
 
   return (
-    <div className={`p-4 border rounded-lg shadow-md bg-gray-900 border-opacity-50 ${
-      isCourseCompleted(selectedNode.id) ? 'border-green-500' : 
-      isCourseUnlocked(selectedNode.id) ? 'border' : 'border-gray-800'
+    <div className={`p-4 border rounded-lg shadow-md bg-card border-opacity-50 ${
+      isCourseCompleted(selectedNode.id) ? 'border-secondary' : 
+      isCourseUnlocked(selectedNode.id) ? 'border' : 'border-border'
     }`} 
       style={{ 
         borderColor: isCourseCompleted(selectedNode.id) ? 
-          '#2ecc71' : isCourseUnlocked(selectedNode.id) ? 
+          'var(--secondary)' : isCourseUnlocked(selectedNode.id) ? 
           getCategoryColor(selectedNode.group) : undefined 
       }}>
       <div className="flex justify-between items-center pb-2 border-b" 
         style={{ 
           borderColor: isCourseCompleted(selectedNode.id) ? 
-            '#2ecc71' : isCourseUnlocked(selectedNode.id) ? 
-            getCategoryColor(selectedNode.group) : '#555' 
+            'var(--secondary)' : isCourseUnlocked(selectedNode.id) ? 
+            getCategoryColor(selectedNode.group) : 'var(--border)' 
         }}>
-        <h3 className="text-lg font-semibold text-white" 
+        <h3 className="text-lg font-semibold text-foreground" 
           style={{ 
             color: isCourseCompleted(selectedNode.id) ? 
-              '#2ecc71' : isCourseUnlocked(selectedNode.id) ? 
-              getCategoryColor(selectedNode.group) : '#ccc' 
+              'var(--secondary)' : isCourseUnlocked(selectedNode.id) ? 
+              getCategoryColor(selectedNode.group) : 'var(--foreground)' 
           }}>
           {selectedNode.name}
         </h3>
         <div className="text-sm font-medium px-2 py-1 rounded-full" 
           style={{ 
             backgroundColor: isCourseCompleted(selectedNode.id) ? 
-              'rgba(46, 204, 113, 0.2)' : isCourseUnlocked(selectedNode.id) ? 
-              'rgba(255, 255, 255, 0.1)' : 'rgba(80, 80, 80, 0.2)',
+              'rgba(48, 225, 164, 0.2)' : isCourseUnlocked(selectedNode.id) ? 
+              'rgba(126, 48, 225, 0.2)' : 'rgba(63, 51, 83, 0.4)',
             color: isCourseCompleted(selectedNode.id) ? 
-              '#2ecc71' : isCourseUnlocked(selectedNode.id) ? 
-              '#fff' : '#aaa'
+              'var(--secondary)' : isCourseUnlocked(selectedNode.id) ? 
+              'var(--foreground)' : 'var(--muted)'
           }}>
           {isCourseCompleted(selectedNode.id) ? 'Completed' : 
           isCourseUnlocked(selectedNode.id) ? 'Unlocked' : 'Locked'}
         </div>
       </div>
       
-      <div className="my-4 text-gray-200">
+      <div className="my-4 text-foreground">
         <p className="my-2"><strong>Year:</strong> <span>{selectedNode.year}</span></p>
         <p className="my-2"><strong>Category:</strong> <span>{selectedNode.group}</span></p>
         <p className="my-2"><strong>Level:</strong> <span>{selectedNode.level}</span></p>
-        <p className="my-2"><strong>Description:</strong> <span className="text-gray-300">{selectedNode.description}</span></p>
+        <p className="my-2"><strong>Description:</strong> <span className="text-foreground opacity-80">{selectedNode.description}</span></p>
       </div>
       
       {relatedCourses && (
         <>
           <div className="mt-4">
-            <h4 className="font-medium text-gray-200">Direct Prerequisites:</h4>
+            <h4 className="font-medium text-foreground">Direct Prerequisites:</h4>
             {relatedCourses.prerequisites.length > 0 ? (
               <ul className="list-disc pl-5 mt-1">
                 {relatedCourses.prerequisites.map(prerequisite => (
                   <li key={prerequisite} 
                     className={completedCourses.includes(prerequisite) ? 
-                      "text-green-400" : "text-gray-300"}>
+                      "text-secondary" : "text-foreground opacity-80"}>
                     {prerequisite} {completedCourses.includes(prerequisite) ? '✓' : ''}
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="italic text-gray-400 mt-1">No direct prerequisites</p>
+              <p className="italic text-muted mt-1">No direct prerequisites</p>
             )}
           </div>
           
           <div className="mt-4">
-            <h4 className="font-medium text-gray-200">Unlocks Directly:</h4>
+            <h4 className="font-medium text-foreground">Unlocks Directly:</h4>
             {relatedCourses.dependents.length > 0 ? (
               <ul className="list-disc pl-5 mt-1">
                 {relatedCourses.dependents.map(dependent => {
@@ -114,8 +114,8 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({
                   return (
                     <li key={dependent} 
                       className={
-                        isCompleted ? "text-green-400" : 
-                        isUnlocked ? "text-white" : "text-gray-400"
+                        isCompleted ? "text-secondary" : 
+                        isUnlocked ? "text-foreground" : "text-muted"
                       }>
                       {dependent} {isCompleted ? '✓' : isUnlocked ? '' : '🔒'}
                     </li>
@@ -123,7 +123,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({
                 })}
               </ul>
             ) : (
-              <p className="italic text-gray-400 mt-1">This is a terminal course</p>
+              <p className="italic text-muted mt-1">This is a terminal course</p>
             )}
           </div>
         </>
@@ -132,10 +132,10 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({
       {/* Complete course button */}
       {isCourseUnlocked(selectedNode.id) && !isCourseCompleted(selectedNode.id) && (
         <button
-          className="mt-6 w-full py-2 px-4 rounded font-medium text-white transition-all duration-200 focus:outline-none"
+          className="mt-6 w-full py-2 px-4 rounded font-medium text-foreground transition-all duration-200 focus:outline-none"
           style={{
-            backgroundColor: allPrerequisitesComplete ? '#2ecc71' : '#e74c3c',
-            boxShadow: `0 0 10px ${allPrerequisitesComplete ? '#2ecc71' : '#e74c3c'}`
+            backgroundColor: allPrerequisitesComplete ? 'var(--secondary)' : 'var(--primary-dark)',
+            boxShadow: `0 0 10px ${allPrerequisitesComplete ? 'var(--secondary)' : 'var(--primary-dark)'}`
           }}
           onClick={() => completeCourse(selectedNode.id)}
           disabled={!allPrerequisitesComplete}
@@ -145,7 +145,7 @@ const CourseDetails: React.FC<CourseDetailsProps> = ({
       )}
       
       {isCourseCompleted(selectedNode.id) && (
-        <div className="mt-6 w-full py-2 px-4 rounded font-medium text-center text-green-400 bg-green-900 bg-opacity-20 border border-green-700">
+        <div className="mt-6 w-full py-2 px-4 rounded font-medium text-center text-secondary bg-card bg-opacity-20 border border-secondary border-opacity-30">
           Course Completed! ✓
         </div>
       )}
