@@ -2,20 +2,19 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { Node, Link, GraphData } from './types';
-import { categoryColors } from './CurriculumData';
+import { GraphNode, GraphLink, GraphData, categoryColors } from './courseUtils';
 
 interface GraphVisualizationProps {
   graphData: GraphData;
-  selectedNode: Node | null;
-  hoveredNode: Node | null;
-  setHoveredNode: (node: Node | null) => void;
-  setSelectedNode: (node: Node | null) => void;
+  selectedNode: GraphNode | null;
+  hoveredNode: GraphNode | null;
+  setHoveredNode: (node: GraphNode | null) => void;
+  setSelectedNode: (node: GraphNode | null) => void;
   completedCourses: string[];
   unlockedCourses: string[];
   scrollPosition: number;
-  tooltipRef: React.RefObject<HTMLDivElement>;
-  graphContainerRef: React.RefObject<HTMLDivElement>;
+  tooltipRef: React.RefObject<HTMLDivElement | null>;
+  graphContainerRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const GraphVisualization: React.FC<GraphVisualizationProps> = ({
@@ -71,7 +70,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     svg.append("rect")
       .attr("width", totalGraphWidth)
       .attr("height", containerHeight)
-      .attr("fill", "#0a0a0a");
+      .attr("fill", "#050505");
       
     const g = svg.append("g");
     
@@ -200,7 +199,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     });
     
     // Vertical layout - separate nodes in the same level with more spacing
-    const levelGroups: Record<number, Node[]> = {};
+    const levelGroups: Record<number, GraphNode[]> = {};
     graphData.nodes.forEach(node => {
       if (!levelGroups[node.level]) {
         levelGroups[node.level] = [];
@@ -418,7 +417,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
       .text((d: any) => `Y${d.year}`);
     
     // Handle node click
-    nodes.on("click", (event: any, d: Node) => {
+    nodes.on("click", (event: any, d: GraphNode) => {
       // Only allow clicking on unlocked courses
       if (isCourseUnlocked(d.id) || isCourseCompleted(d.id)) {
         setSelectedNode(selectedNode?.id === d.id ? null : d);
@@ -443,7 +442,7 @@ const GraphVisualization: React.FC<GraphVisualizationProps> = ({
     });
     
     // Handle node hover for tooltip
-    nodes.on("mouseenter", (event: any, d: Node) => {
+    nodes.on("mouseenter", (event: any, d: GraphNode) => {
       setHoveredNode(d);
       
       // Get bounding rect for positioning tooltip

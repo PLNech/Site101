@@ -19,7 +19,6 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,9 +29,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-background to-background-dark text-foreground selection:bg-primary selection:text-white`}
       >
-        <div className="relative min-h-screen flex flex-col">
-          {children}
-        </div>
+        <article className="max-w-full overflow-x-auto">
+          <div className="relative min-h-screen flex flex-col">
+            {children}
+          </div>
+        </article>
       </body>
     </html>
   );

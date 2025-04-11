@@ -3,15 +3,22 @@
 
 import courseData, { Course, getAllCourses } from './courseData';
 
-export interface GraphNode extends Course {
-  id: string;
-  name: string;
-  group: string;
+export interface GraphNode {
+  id: string;           // Same as title in most cases
+  title: string;        // Required from Course
+  name: string;         // Display name
+  description: string;  // Required from Course
+  prerequisites: string[]; // Required from Course
+  group: string;        // Category name
   year: number;
   level: number;
   allPrerequisites: string[];
   isUnlocked: boolean;
   isCompleted: boolean;
+  isStartingNode?: boolean; // Optional in Course
+  isFinalNode?: boolean;    // Optional in Course
+  fixedX?: number;         // For visualization
+  fixedY?: number;         // For visualization
 }
 
 export interface GraphLink {
@@ -52,6 +59,7 @@ export const transformCurriculumToGraphData = (): GraphData => {
       category.courses.forEach(course => {
         const node: GraphNode = {
           id: course.title,
+          title: course.title,  // Make sure title is explicitly set
           name: course.title,
           group: category.category_name,
           year: year.year_number,
