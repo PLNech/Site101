@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  # Service Next.js
+  nextjs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - mongodb
+    environment:
+      - MONGODB_URI=mongodb://mongodb:27017/eduplatform
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=your-secret-key-change-me-in-production
+    restart: unless-stopped
+    # Pour le développement, utilisez cette commande à la place de celle définie dans Dockerfile
+    command: npm run dev
+
+  # Service MongoDB
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
