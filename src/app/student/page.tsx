@@ -2,8 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from "next/link";
-import Image from "next/image";
 import CurriculumGraph from "@/app/components/curriculum";
+import UserDropdown from "@/components/header/UserDropdown";
+import { useStudentContext } from "@/app/contexts/StudentContext";
 
 // Mock student data
 const studentData = {
@@ -22,6 +23,7 @@ const studentData = {
 
 export default function StudentPage() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const { currentStudent } = useStudentContext();
   
   return (
     <div className="content-grid">
@@ -36,13 +38,7 @@ export default function StudentPage() {
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex items-center gap-3">
-            <div className="h-8 w-8 rounded-full bg-primary-dark/30 flex items-center justify-center">
-              <span className="text-xs font-semibold">{studentData.name.split(' ').map(n => n[0]).join('')}</span>
-            </div>
-            <span className="text-sm font-medium">{studentData.name}</span>
-          </div>
-          <Link href="/" className="btn-secondary">Déconnexion</Link>
+          <UserDropdown />
         </div>
       </header>
       
@@ -272,8 +268,8 @@ export default function StudentPage() {
               <div className="mb-6">
                 <h1 className="text-2xl font-bold mb-2">Parcours pédagogique</h1>
                 <p className="text-muted max-w-3xl">
-                  Cette visualisation interactive montre votre progression dans le parcours {studentData.parcours}.
-                  Complétez les cours pour débloquer de nouveaux modules et avancer dans votre formation.
+                  Votre parcours d&apos;apprentissage est unique. Visualisez votre progression, accédez à vos cours et ressources, 
+                  et gardez une trace de vos accomplissements.
                 </p>
               </div>
               
@@ -284,7 +280,9 @@ export default function StudentPage() {
           {activeTab === 'projects' && (
             <div>
               <h1 className="text-2xl font-bold mb-2">Mes projets</h1>
-              <p className="text-muted mb-6">Liste de vos projets en cours et passés.</p>
+              <p className="text-muted mb-6">
+                Voici l&apos;ensemble de vos projets. Cliquez sur un projet pour voir les détails.
+              </p>
               
               <div className="card p-6 mb-6">
                 <h2 className="text-xl font-bold mb-4">Projets en cours</h2>

@@ -5,6 +5,12 @@ alwaysApply: true
 ---
 # École 101 - Guide pour la rédaction du site web
 
+## WRITING VALID REACT COMPONENTS
+You must avoid these errors proactively:
+> [22:06:20.517] 54:7  Error: 'allPrerequisites' is never reassigned. Use 'const' instead.  prefer-const
+[22:06:20.514] 562:6  Warning: React Hook useEffect has missing dependencies: 'isCourseCompleted' and 'isCourseUnlocked'. Either include them or remove the dependency array.  react-hooks/exhaustive-deps
+> [22:06:20.526] 298:88  Error: `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`.  react/no-unescaped-entities
+
 ## Voix et ton de la marque
 
 Notre communication doit refléter notre identité d'école d'ingénierie tournée vers l'avenir, axée sur la pratique, avec de profondes racines locales et des normes académiques élevées. Tout le contenu du site web doit incarner les qualités suivantes :

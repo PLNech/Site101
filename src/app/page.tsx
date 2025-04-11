@@ -35,8 +35,8 @@ export default function Home() {
             L'excellence technique à <span className="gradient-text">échelle humaine</span>
           </h1>
           <p className="text-lg md:text-xl text-muted mb-10 max-w-2xl">
-            Fondée par quatre enseignants profondément attachés à Vitry et cumulant plus de cinquante ans d'expérience pédagogique, 
-            École 101 est plus qu'une simple école—c'est un engagement envers l'avenir technologique de notre communauté.
+            Fondée par quatre enseignants profondément attachés à Vitry et cumulant plus de cinquante ans d&apos;expérience pédagogique, 
+            École 101 est plus qu&apos;une simple école—c&apos;est un engagement envers l&apos;avenir technologique de notre communauté.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -61,46 +61,45 @@ export default function Home() {
           <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-center">Enraciné à Vitry, tourné vers l'avenir</h2>
             <p className="text-center text-muted mb-12 max-w-3xl mx-auto">
-              Dans un monde d'éducation de masse impersonnelle, École 101 adopte une approche différente. 
-              Avec des classes à effectif limité et des plans d'apprentissage individualisés, nous garantissons 
-              que chaque étudiant reçoit l'accompagnement nécessaire pour exceller.
+              Dans un monde d&apos;éducation de masse impersonnelle, École 101 adopte une approche différente. 
+              Avec des classes à effectif limité et des plans d&apos;apprentissage individualisés, nous garantissons 
+              que chaque étudiant reçoit l&apos;accompagnement nécessaire pour exceller.
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="p-6 rounded-xl bg-card-hover border border-border hover:border-primary/50 transition-all">
-                <div className="feature-icon">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-6 rounded-xl bg-card-hover border border-border hover:border-primary/50 transition-all text-center">
+                <div className="feature-icon mx-auto mb-4">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M8 16L12 12L16 16M16 8L12 12L8 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Apprendre en faisant</h3>
-                <p className="text-muted">La théorie a sa place, mais à École 101, nous croyons en l'apprentissage par la pratique. Notre programme est construit autour de défis concrets qui vous préparent aux réalités de la vie professionnelle.</p>
+                <p className="text-muted">La théorie a sa place, mais à École 101, nous croyons en l&apos;apprentissage par la pratique. Notre programme est construit autour de défis concrets qui vous préparent aux réalités de la vie professionnelle.</p>
               </div>
               
-              <div className="p-6 rounded-xl bg-card-hover border border-border hover:border-primary/50 transition-all">
-                <div className="feature-icon">
+              <div className="p-6 rounded-xl bg-card-hover border border-border hover:border-primary/50 transition-all text-center">
+                <div className="feature-icon mx-auto mb-4">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Suivi personnalisé</h3>
-                <p className="text-muted">Avec des classes à effectif limité et des plans d'apprentissage individualisés, nous garantissons que chaque étudiant reçoit l'accompagnement nécessaire pour exceller.</p>
+                <p className="text-muted">Avec des classes à effectif limité et des plans d&apos;apprentissage individualisés, nous garantissons que chaque étudiant reçoit l&apos;accompagnement nécessaire pour exceller.</p>
               </div>
               
-              <div className="p-6 rounded-xl bg-card-hover border border-border hover:border-primary/50 transition-all">
-                <div className="feature-icon">
+              <div className="p-6 rounded-xl bg-card-hover border border-border hover:border-primary/50 transition-all text-center">
+                <div className="feature-icon mx-auto mb-4">
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold mb-3">Engagement citoyen</h3>
-                <p className="text-muted">L'éducation technologique ne se limite pas au code et aux systèmes—il s'agit de créer un changement positif. À École 101, l'engagement citoyen fait partie de notre ADN.</p>
+                <p className="text-muted">L&apos;éducation technologique ne se limite pas au code et aux systèmes—il s&apos;agit de créer un changement positif. À École 101, l&apos;engagement citoyen fait partie de notre ADN.</p>
               </div>
             </div>
           </div>
         </section>
-        
         {/* Formation section */}
         <section id="formation" className="py-16 px-4 sm:px-6 md:px-10 overflow-hidden">
           <div className="max-w-7xl mx-auto">
@@ -112,7 +111,7 @@ export default function Home() {
                 Former les <span className="gradient-text">architectes numériques</span> de demain
               </h2>
               <p className="text-lg text-muted max-w-2xl mx-auto">
-                École 101 propose des formations spécialisées dans les deux secteurs les plus dynamiques de la technologie aujourd'hui : 
+                École 101 propose des formations spécialisées dans les deux secteurs les plus dynamiques de la technologie aujourd&apos;hui : 
                 Développement & IA et Systèmes, Réseaux & Cybersécurité—chaque parcours menant à des qualifications reconnues au niveau national.
               </p>
             </div>
@@ -127,7 +126,7 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Développement et IA</h3>
                 <p className="text-muted mb-6">
-                  De la conception d'applications web jusqu'à l'entraînement de modèles d'intelligence artificielle, 
+                  De la conception d&apos;applications web jusqu&apos;à l&apos;entraînement de modèles d&apos;intelligence artificielle, 
                   ce parcours vous immerge dans toutes les étapes du développement logiciel moderne.
                 </p>
                 <ul className="space-y-3 mb-8">
@@ -141,7 +140,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-start">
                     <span className="text-secondary mr-2">✓</span>
-                    <span>Conception et déploiement de modèles d'IA</span>
+                    <span>Conception et déploiement de modèles d&apos;IA</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-secondary mr-2">✓</span>
@@ -161,8 +160,8 @@ export default function Home() {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Systèmes, Réseaux et Cybersécurité</h3>
                 <p className="text-muted mb-6">
-                  De l'architecture des systèmes d'exploitation à la sécurisation des infrastructures d'entreprise, 
-                  maîtrisez les compétences essentielles pour protéger et optimiser les systèmes d'information.
+                  De l&apos;architecture des systèmes d&apos;exploitation à la sécurisation des infrastructures d&apos;entreprise, 
+                  maîtrisez les compétences essentielles pour protéger et optimiser les systèmes d&apos;information.
                 </p>
                 <ul className="space-y-3 mb-8">
                   <li className="flex items-start">
@@ -171,7 +170,7 @@ export default function Home() {
                   </li>
                   <li className="flex items-start">
                     <span className="text-secondary mr-2">✓</span>
-                    <span>Conception d'infrastructures réseau</span>
+                    <span>Conception d&apos;infrastructures réseau</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-secondary mr-2">✓</span>
@@ -195,7 +194,7 @@ export default function Home() {
               <div className="md:w-1/2">
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Une école par des professionnels, pour des professionnels</h2>
                 <p className="text-muted mb-6">
-                  La théorie a sa place, mais à École 101, nous croyons en l'apprentissage par la pratique. 
+                  La théorie a sa place, mais à École 101, nous croyons en l&apos;apprentissage par la pratique. 
                   Notre programme est construit autour de défis concrets qui vous préparent aux réalités de la vie professionnelle.
                 </p>
                 <p className="text-muted mb-8">
@@ -228,7 +227,7 @@ export default function Home() {
                     <p className="mb-4 pl-4">
                       ⟢ 60% de projets pratiques<br />
                       ⟢ 25% de cours théoriques<br />
-                      ⟢ 15% d'engagement communautaire
+                      ⟢ 15% d&apos;engagement communautaire
                     </p>
                     
                     <p className="mb-3"><span className="text-primary-light">$</span> <span className="text-secondary">parcours</span> <span className="text-accent">--certification</span></p>
@@ -250,7 +249,7 @@ export default function Home() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-2xl md:text-4xl font-bold mb-6">Transformez votre passion en expertise</h2>
             <p className="text-muted text-lg mb-10">
-              Rejoignez l'École 101 à Vitry et devenez un acteur du changement technologique, tout en contribuant au développement de votre communauté locale.
+              Rejoignez l&apos;École 101 à Vitry et devenez un acteur du changement technologique, tout en contribuant au développement de votre communauté locale.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link href="#" className="btn-primary text-lg px-8 py-3">Demander un entretien</Link>
@@ -272,7 +271,7 @@ export default function Home() {
                 <h3 className="font-bold">École 101 Vitry</h3>
               </div>
               <p className="text-sm text-muted">
-                L'excellence technique à échelle humaine. Enraciné à Vitry, tourné vers l'avenir.
+                L&apos;excellence technique à échelle humaine. Enraciné à Vitry, tourné vers l&apos;avenir.
               </p>
             </div>
             

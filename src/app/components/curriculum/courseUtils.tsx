@@ -51,7 +51,7 @@ export const categoryColors: Record<string, string> = {
 export const transformCurriculumToGraphData = (): GraphData => {
   const nodes: GraphNode[] = [];
   const nodeMap: Record<string, GraphNode> = {};
-  let allPrerequisites: Record<string, string[]> = {};
+  const allPrerequisites: Record<string, string[]> = {};
   
   // First pass: create nodes
   courseData.years.forEach(year => {

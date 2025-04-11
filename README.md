@@ -1,55 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![Home Screen](./github/screens/home.png)
+![Student Dashboard](./github/screens/student.png)
 
-## Getting Started
+# École 101 - Plateforme de Gestion de Curriculum
 
-First, run the development server:
+## Présentation du Projet
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Cette application web, développée avec Next.js, est bien plus qu'un simple site—c'est un outil dynamique conçu pour transformer l'expérience éducative à École 101. Notre plateforme incarne notre engagement envers une formation personnalisée, axée sur la pratique et centrée sur l'étudiant.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Fonctionnalités Clés
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Parcours Personnalisé** : Les étudiants peuvent visualiser, suivre et débloquer leurs propres progressions de cours
+- **Mise à Jour Collaborative** : Les enseignants peuvent facilement mettre à jour et enrichir le contenu du curriculum
+- **Visualisation Interactive** : Un graphe dynamique représentant les interconnexions entre les compétences et les modules
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Démarrage Rapide
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Architecture
-
-src/
-└── app/
-    └── components/
-        └── curriculum/
-            ├── index.tsx               # Main export
-            ├── CurriculumData.tsx      # Curriculum data
-            ├── CurriculumGraph.tsx     # Main container component
-            ├── GraphVisualization.tsx  # D3 visualization 
-            ├── CourseDetails.tsx       # Course details panel
-            ├── Legend.tsx              # Legend component
-            ├── utils.tsx               # Utility functions
-            └── types.ts                # Type definitions
-
-## Templates
-
-- https://nextjstemplates.com/templates/tailadmin-nextjs-admin-dashboard
+Lancez le serveur de développement :

@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "@/context/SidebarContext";
 import SidebarWidget from "./SidebarWidget";
@@ -112,7 +111,7 @@ const othersItems: NavItem[] = [
 ];
 
 const AppSidebar: React.FC = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  const { expanded: isExpanded, mobileOpen: isMobileOpen, hovered: isHovered, setHovered: setIsHovered } = useSidebar();
   const pathname = usePathname();
 
   const renderMenuItems = (

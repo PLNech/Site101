@@ -1,206 +1,102 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import React, { useState } from "react";
 import { Dropdown } from "../ui/dropdown/Dropdown";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
-export default function NotificationDropdown() {
+const NotificationDropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
 
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
+  function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.stopPropagation();
+    setIsOpen((prev) => !prev);
   }
 
   function closeDropdown() {
     setIsOpen(false);
   }
 
-  const handleClick = () => {
-    toggleDropdown();
-    setNotifying(false);
-  };
-  
   return (
     <div className="relative">
       <button
-        className="relative dropdown-toggle flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-gray-700 h-11 w-11 hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
-        onClick={handleClick}
+        onClick={toggleDropdown}
+        className="dropdown-toggle flex h-10 w-10 items-center justify-center rounded-lg text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
       >
-        <span
-          className={`absolute right-0 top-0.5 z-10 h-2 w-2 rounded-full bg-orange-400 ${
-            !notifying ? "hidden" : "flex"
-          }`}
-        >
-          <span className="absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 animate-ping"></span>
-        </span>
         <svg
-          className="fill-current"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
             fillRule="evenodd"
             clipRule="evenodd"
-            d="M10.75 2.29248C10.75 1.87827 10.4143 1.54248 10 1.54248C9.58583 1.54248 9.25004 1.87827 9.25004 2.29248V2.83613C6.08266 3.20733 3.62504 5.9004 3.62504 9.16748V14.4591H3.33337C2.91916 14.4591 2.58337 14.7949 2.58337 15.2091C2.58337 15.6234 2.91916 15.9591 3.33337 15.9591H4.37504H15.625H16.6667C17.0809 15.9591 17.4167 15.6234 17.4167 15.2091C17.4167 14.7949 17.0809 14.4591 16.6667 14.4591H16.375V9.16748C16.375 5.9004 13.9174 3.20733 10.75 2.83613V2.29248ZM14.875 14.4591V9.16748C14.875 6.47509 12.6924 4.29248 10 4.29248C7.30765 4.29248 5.12504 6.47509 5.12504 9.16748V14.4591H14.875ZM8.00004 17.7085C8.00004 18.1228 8.33583 18.4585 8.75004 18.4585H11.25C11.6643 18.4585 12 18.1228 12 17.7085C12 17.2943 11.6643 16.9585 11.25 16.9585H8.75004C8.33583 16.9585 8.00004 17.2943 8.00004 17.7085Z"
+            d="M7.034 4.05261C8.08 3.38047 9.282 3 10.5 3C13.531 3 16 5.46897 16 8.5V9.50388C16 9.81517 16.062 10.129 16.17 10.4189L16.92 12.6706C17.428 14.1977 16.401 15.9973 14.8 16.1965L13 16.4283V17C13 18.6569 11.657 20 10 20C8.343 20 7 18.6569 7 17V16.4283L5.2 16.1965C3.599 15.9973 2.572 14.1977 3.08 12.6706L3.83 10.4189C3.938 10.129 4 9.81517 4 9.50388V8.5C4 6.99001 4.59 5.62236 5.536 4.62455C5.517 4.55321 5.5 4.48072 5.5 4.42365V3.53876C5.5 3.15299 5.809 2.84232 6.195 2.84232C6.581 2.84232 6.89 3.15299 6.89 3.53876V4.42365C6.89 4.47065 6.875 4.5159 6.864 4.56192C6.919 4.39178 6.978 4.22373 7.034 4.05261ZM5.5 8.5V9.50388C5.5 10.0232 5.601 10.5388 5.789 11.0236L6.54 13.2753C6.66 13.6563 7.069 13.9212 7.46 13.8713L10 13.5624L12.54 13.8713C12.931 13.9232 13.34 13.6563 13.46 13.2753L14.211 11.0236C14.399 10.5388 14.5 10.0232 14.5 9.50388V8.5C14.5 6.294 12.706 4.5 10.5 4.5C8.294 4.5 6.5 6.294 6.5 8.5H5.5ZM10 18.5C9.172 18.5 8.5 17.828 8.5 17V16.8783L9.46 17.025C9.64 17.0571 9.82 17.0732 10 17.0732C10.18 17.0732 10.36 17.0571 10.54 17.025L11.5 16.8783V17C11.5 17.828 10.828 18.5 10 18.5Z"
             fill="currentColor"
           />
         </svg>
       </button>
-      
+
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
-        className="absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0"
+        className="absolute right-0 mt-[10px] flex w-[320px] flex-col rounded-2xl border border-gray-200 bg-white p-4 shadow-theme-lg dark:border-gray-800 dark:bg-gray-900"
       >
-        <div className="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-700">
-          <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-            Notifications
-          </h5>
-          <button
-            onClick={toggleDropdown}
-            className="text-gray-500 transition dropdown-toggle dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
-          >
-            <svg
-              className="fill-current"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M6.21967 7.28131C5.92678 6.98841 5.92678 6.51354 6.21967 6.22065C6.51256 5.92775 6.98744 5.92775 7.28033 6.22065L11.999 10.9393L16.7176 6.22078C17.0105 5.92789 17.4854 5.92788 17.7782 6.22078C18.0711 6.51367 18.0711 6.98855 17.7782 7.28144L13.0597 12L17.7782 16.7186C18.0711 17.0115 18.0711 17.4863 17.7782 17.7792C17.4854 18.0721 17.0105 18.0721 16.7176 17.7792L11.999 13.0607L7.28033 17.7794C6.98744 18.0722 6.51256 18.0722 6.21967 17.7794C5.92678 17.4865 5.92678 17.0116 6.21967 16.7187L10.9384 12L6.21967 7.28131Z"
-                fill="currentColor"
-              />
-            </svg>
-          </button>
+        <div className="flex items-center justify-between pb-3">
+          <h3 className="text-lg font-semibold">Notifications</h3>
+          <span className="rounded-full bg-primary/10 py-0.5 px-2 text-xs font-medium text-primary">3 nouvelles</span>
         </div>
         
-        <ul className="flex flex-col h-auto overflow-y-auto custom-scrollbar">
-          <li>
-            <DropdownItem
-              onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
-            >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
-                <Image
-                  width={40}
-                  height={40}
-                  src="/images/user/user-01.jpg"
-                  alt="User"
-                  className="w-full overflow-hidden rounded-full"
-                />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
-              </span>
-
-              <span className="block">
-                <span className="mb-1.5 space-x-1 block text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    Marc Dubois
-                  </span>
-                  <span>a publié un nouveau cours de</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    JavaScript avancé
-                  </span>
-                </span>
-
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Cours</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Il y a 5 min</span>
-                </span>
-              </span>
-            </DropdownItem>
-          </li>
-
-          <li>
-            <DropdownItem
-              onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
-            >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
-                <Image
-                  width={40}
-                  height={40}
-                  src="/images/user/user-02.jpg"
-                  alt="User"
-                  className="w-full overflow-hidden rounded-full"
-                />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
-              </span>
-
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    Sophie Martin
-                  </span>
-                  <span>a organisé un nouvel évènement</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    Atelier Python
-                  </span>
-                </span>
-
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Événement</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Il y a 25 min</span>
-                </span>
-              </span>
-            </DropdownItem>
-          </li>
-
-          <li>
-            <DropdownItem
-              onItemClick={closeDropdown}
-              className="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
-              href="#"
-            >
-              <span className="relative block w-full h-10 rounded-full z-1 max-w-10">
-                <Image
-                  width={40}
-                  height={40}
-                  src="/images/user/user-03.jpg"
-                  alt="User"
-                  className="w-full overflow-hidden rounded-full"
-                />
-                <span className="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white bg-success-500 dark:border-gray-900"></span>
-              </span>
-
-              <span className="block">
-                <span className="mb-1.5 block space-x-1 text-theme-sm text-gray-500 dark:text-gray-400">
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    Thomas Legrand
-                  </span>
-                  <span>a évalué votre projet</span>
-                  <span className="font-medium text-gray-800 dark:text-white/90">
-                    Application Web
-                  </span>
-                </span>
-
-                <span className="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                  <span>Évaluation</span>
-                  <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-                  <span>Il y a 2h</span>
-                </span>
-              </span>
-            </DropdownItem>
-          </li>
-        </ul>
-        
-        <div className="pt-4 mt-auto text-center">
-          <Link
-            href="#"
-            className="text-sm font-medium text-primary hover:text-primary-dark dark:hover:text-primary-light"
-          >
-            Voir toutes les notifications
-          </Link>
+        <div className="space-y-3 max-h-[350px] overflow-y-auto">
+          <div className="flex gap-3 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <div className="rounded-full h-10 w-10 flex items-center justify-center bg-primary/10 text-primary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium">Nouveau cours disponible</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Frontend Development with React</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Il y a 5 minutes</p>
+            </div>
+          </div>
+          
+          <div className="flex gap-3 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <div className="rounded-full h-10 w-10 flex items-center justify-center bg-secondary/10 text-secondary">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 11L12 14L15 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H12V3Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium">Évaluation notée</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Algorithmes Fondamentaux - 16/20</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Hier</p>
+            </div>
+          </div>
+          
+          <div className="flex gap-3 rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <div className="rounded-full h-10 w-10 flex items-center justify-center bg-accent/10 text-accent">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 16V12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M12 8H12.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-medium">Rappel</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Rendu du projet prévu pour demain</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">Il y a 2 jours</p>
+            </div>
+          </div>
         </div>
+        
+        <button className="mt-3 w-full rounded-lg text-center py-2 text-sm font-medium text-primary hover:bg-primary/5">
+          Voir toutes les notifications
+        </button>
       </Dropdown>
     </div>
   );
-}
+};
+
+export default NotificationDropdown;

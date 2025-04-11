@@ -1,8 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from 'react';
-import * as courseDataModule from './courseData';
-import { categoryColors, transformCurriculumToGraphData, getUnlockedCourses, GraphNode, GraphData, GraphLink } from './courseUtils';
+import { categoryColors, transformCurriculumToGraphData, getUnlockedCourses, GraphNode, GraphData } from './courseUtils';
 import GraphVisualization from './GraphVisualization';
 import CourseDetails from './CourseDetails';
 import Legend from './Legend';
@@ -14,9 +13,28 @@ const DEFAULT_STUDENT_ID = "STU001";
 // Helper to get storage key for a specific student
 const getStorageKey = (studentId: string) => `ecole101_student_${studentId}_courses`;
 
+// Student info type
+interface StudentInfo {
+  id: string;
+  name: string;
+  email: string;
+  parcours?: string;
+  niveau?: string;
+  promotion?: string;
+  class_id?: string;
+  teacher?: string;
+  progression?: {
+    coursesCompleted: number;
+    coursesInProgress: number;
+    totalCourses: number;
+    nextEvaluation: string;
+    currentFocus?: string[];
+  };
+}
+
 // Helper to flatten student data for easier access
 const getAllStudents = () => {
-  const allStudents: any[] = [];
+  const allStudents: StudentInfo[] = [];
   
   // Process class groups
   studentData.forEach(item => {
@@ -33,7 +51,7 @@ const getAllStudents = () => {
       });
     } else if (item.id) {
       // Top-level student entries
-      allStudents.push(item);
+      allStudents.push(item as StudentInfo);
     }
   });
   
@@ -48,13 +66,22 @@ const CurriculumGraph: React.FC = () => {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [unlockedCourses, setUnlockedCourses] = useState<string[]>([]);
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [studentInfo, setStudentInfo] = useState<any>(null);
+  const [studentInfo, setStudentInfo] = useState<StudentInfo | null>(null);
   const [currentStudentId, setCurrentStudentId] = useState<string>(DEFAULT_STUDENT_ID);
-  const [allStudents, setAllStudents] = useState<any[]>([]);
+  const [allStudents, setAllStudents] = useState<StudentInfo[]>([]);
   
   const tooltipRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const graphContainerRef = useRef<HTMLDivElement>(null);
+
+  // Helper functions for course status - defined at the top level to be used in useEffect
+  const isCourseCompleted = (courseId: string) => {
+    return completedCourses.includes(courseId);
+  };
+  
+  const isCourseUnlocked = (courseId: string) => {
+    return unlockedCourses.includes(courseId);
+  };
 
   // Load all students
   useEffect(() => {
@@ -178,15 +205,6 @@ const CurriculumGraph: React.FC = () => {
     dependents: getDirectDependents(selectedNode.id),
     allPrerequisites: selectedNode.allPrerequisites || []
   } : null;
-
-  // Helper functions
-  function isCourseCompleted(courseId: string) {
-    return completedCourses.includes(courseId);
-  }
-  
-  function isCourseUnlocked(courseId: string) {
-    return unlockedCourses.includes(courseId);
-  }
 
   return (
     <div className="w-full min-h-[80vh] flex flex-col bg-background border border-border rounded-xl shadow-xl" ref={containerRef}>

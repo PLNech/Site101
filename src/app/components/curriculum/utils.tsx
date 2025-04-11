@@ -4,7 +4,7 @@ import { CurriculumData, GraphData, Node, Link } from './types';
 export const transformCurriculumToGraphData = (curriculum: CurriculumData): GraphData => {
   const nodes: Node[] = [];
   const nodeMap: Record<string, Node> = {};
-  let allPrerequisites: Record<string, string[]> = {};
+  const allPrerequisites: Record<string, string[]> = {};
   
   // First pass: create nodes
   curriculum.years.forEach(year => {
