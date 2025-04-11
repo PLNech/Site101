@@ -1,0 +1,7 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Import with @/ syntax
+e.g. `import GraphVisualization from "@/app/components/curriculum/GraphVisualization";`

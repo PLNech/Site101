@@ -34,3 +34,18 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Architecture
+
+src/
+└── app/
+    └── components/
+        └── curriculum/
+            ├── index.tsx               # Main export
+            ├── CurriculumData.tsx      # Curriculum data
+            ├── CurriculumGraph.tsx     # Main container component
+            ├── GraphVisualization.tsx  # D3 visualization 
+            ├── CourseDetails.tsx       # Course details panel
+            ├── Legend.tsx              # Legend component
+            ├── utils.tsx               # Utility functions
+            └── types.ts                # Type definitions
