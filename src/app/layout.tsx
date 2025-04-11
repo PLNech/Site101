@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import { StudentProvider } from "./contexts/StudentContext";
+import { CourseProvider } from "./contexts/CourseContext";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -31,11 +32,13 @@ export default function RootLayout({
         className={`${inter.variable} ${robotoMono.variable} antialiased bg-gradient-to-br from-background to-background-dark text-foreground selection:bg-primary selection:text-white`}
       >
         <StudentProvider>
-          <article className="max-w-full overflow-x-auto">
-            <div className="relative min-h-screen flex flex-col">
-              {children}
-            </div>
-          </article>
+          <CourseProvider>
+            <article className="max-w-full overflow-x-auto">
+              <div className="relative min-h-screen flex flex-col">
+                {children}
+              </div>
+            </article>
+          </CourseProvider>
         </StudentProvider>
       </body>
     </html>
