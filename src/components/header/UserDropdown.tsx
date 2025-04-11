@@ -8,7 +8,7 @@ import { useStudentContext } from "@/app/contexts/StudentContext";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { currentStudent, toggleStudent } = useStudentContext();
+  const { currentStudent, isAdmin, toggleAdminView } = useStudentContext();
 
   function toggleDropdown(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.stopPropagation();
@@ -35,7 +35,7 @@ export default function UserDropdown() {
         </span>
 
         <span className="block mr-1 font-medium text-theme-sm">
-          {currentStudent === 'admin' ? 'Admin' : 'Student'}
+          {isAdmin ? 'Admin' : currentStudent.name}
         </span>
 
         <svg
@@ -65,10 +65,10 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            {currentStudent === 'admin' ? 'Admin École 101' : 'Student View'}
+            {isAdmin ? 'Admin École 101' : 'Espace Étudiant'}
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            {currentStudent === 'admin' ? 'admin@ecole101vitry.fr' : 'student@ecole101vitry.fr'}
+            {isAdmin ? 'admin@ecole101vitry.fr' : currentStudent.email}
           </span>
         </div>
 
@@ -77,7 +77,7 @@ export default function UserDropdown() {
           <li>
             <DropdownItem
               onItemClick={() => {
-                toggleStudent();
+                toggleAdminView();
                 closeDropdown();
               }}
               tag="button"
@@ -98,7 +98,7 @@ export default function UserDropdown() {
                   fill=""
                 />
               </svg>
-              {currentStudent === 'admin' ? 'Switch to Student View' : 'Switch to Admin View'}
+              {isAdmin ? 'Switch to Student View' : 'Switch to Admin View'}
             </DropdownItem>
           </li>
           <li>

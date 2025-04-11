@@ -3,7 +3,8 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import { SimulationNodeDatum } from 'd3-force';
-import { GraphNode, GraphData, categoryColors } from './courseUtils';
+import { GraphData, categoryColors } from './courseUtils';
+import type { GraphNode as ImportedGraphNode } from './courseUtils';
 
 interface GraphVisualizationProps {
   graphData: GraphData;
