@@ -1,5 +1,5 @@
-![Home Screen](./github/screens/home.png)
-![Student Dashboard](./github/screens/student.png)
+![Home Screen](./.github/screens/home.png)
+![Student Dashboard](./.github/screens/student.png)
 
 # École 101 - Plateforme de Gestion de Curriculum
 
