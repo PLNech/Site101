@@ -6,6 +6,39 @@ import { categoryColors, transformCurriculumToGraphData, getUnlockedCourses, Gra
 import GraphVisualization from './GraphVisualization';
 import CourseDetails from './CourseDetails';
 import Legend from './Legend';
+import studentData from './studentData';
+
+// Default student ID
+const DEFAULT_STUDENT_ID = "STU001";
+
+// Helper to get storage key for a specific student
+const getStorageKey = (studentId: string) => `ecole101_student_${studentId}_courses`;
+
+// Helper to flatten student data for easier access
+const getAllStudents = () => {
+  const allStudents: any[] = [];
+  
+  // Process class groups
+  studentData.forEach(item => {
+    if (Array.isArray(item.students)) {
+      item.students.forEach(student => {
+        allStudents.push({
+          ...student,
+          parcours: item.parcours,
+          niveau: item.niveau,
+          promotion: item.promotion,
+          class_id: item.class_id || '',
+          teacher: item.teacher || ''
+        });
+      });
+    } else if (item.id) {
+      // Top-level student entries
+      allStudents.push(item);
+    }
+  });
+  
+  return allStudents;
+};
 
 const CurriculumGraph: React.FC = () => {
   // Initialize with empty but valid GraphData object
@@ -15,13 +48,34 @@ const CurriculumGraph: React.FC = () => {
   const [completedCourses, setCompletedCourses] = useState<string[]>([]);
   const [unlockedCourses, setUnlockedCourses] = useState<string[]>([]);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [studentInfo, setStudentInfo] = useState<any>(null);
+  const [currentStudentId, setCurrentStudentId] = useState<string>(DEFAULT_STUDENT_ID);
+  const [allStudents, setAllStudents] = useState<any[]>([]);
   
   const tooltipRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const graphContainerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize graph data and unlock starting nodes
+  // Load all students
   useEffect(() => {
+    const students = getAllStudents();
+    setAllStudents(students);
+  }, []);
+
+  // Load student info when student ID changes
+  useEffect(() => {
+    if (allStudents.length === 0) return;
+    
+    const student = allStudents.find(s => s.id === currentStudentId);
+    if (student) {
+      setStudentInfo(student);
+      console.log("Student info loaded:", student);
+    }
+    
+    // Reset graph state when changing student
+    setSelectedNode(null);
+    
+    // Load completed courses for the selected student
     try {
       const data = transformCurriculumToGraphData();
       
@@ -29,32 +83,69 @@ const CurriculumGraph: React.FC = () => {
       const startingNodeIds = data.nodes
         .filter(node => node.isStartingNode === true)
         .map(node => node.id);
-        
-      setUnlockedCourses(startingNodeIds);
+
+      // Load completed courses from localStorage for this specific student
+      const savedCourses = localStorage.getItem(getStorageKey(currentStudentId));
+      const initialCompletedCourses = savedCourses ? JSON.parse(savedCourses) : [];
+      
+      setCompletedCourses(initialCompletedCourses);
+      
+      // Calculate unlocked courses based on completed ones
+      const initialUnlockedCourses = getUnlockedCourses(initialCompletedCourses);
+      // Always make sure starting nodes are unlocked
+      const allUnlockedCourses = [...new Set([...initialUnlockedCourses, ...startingNodeIds])];
+      
+      setUnlockedCourses(allUnlockedCourses);
       setGraphData(data);
     } catch (error) {
       console.error("Error initializing curriculum graph:", error);
       // Set fallback empty valid state
       setGraphData({ nodes: [], links: [], maxLevel: 0 });
     }
-  }, []);
+  }, [currentStudentId, allStudents]);
+
+  // Save completed courses to localStorage when they change
+  useEffect(() => {
+    if (completedCourses.length > 0 && currentStudentId) {
+      localStorage.setItem(getStorageKey(currentStudentId), JSON.stringify(completedCourses));
+      
+      // Update student info in localStorage
+      if (studentInfo) {
+        const updatedInfo = {
+          ...studentInfo,
+          progression: {
+            ...studentInfo.progression,
+            coursesCompleted: completedCourses.length
+          }
+        };
+        localStorage.setItem(`ecole101_student_${currentStudentId}_info`, JSON.stringify(updatedInfo));
+      }
+    }
+  }, [completedCourses, studentInfo, currentStudentId]);
 
   // Complete a course and unlock its dependents
   const completeCourse = (courseId: string) => {
     if (!graphData || graphData.nodes.length === 0) return;
     
-    // Update completed courses list
-    const newCompletedCourses = [...completedCourses, courseId];
-    setCompletedCourses(newCompletedCourses);
-    
-    // Get all unlocked courses based on what's completed
-    const newUnlockedCourses = getUnlockedCourses(newCompletedCourses);
-    setUnlockedCourses(newUnlockedCourses);
+    // Update completed courses list if not already completed
+    if (!completedCourses.includes(courseId)) {
+      const newCompletedCourses = [...completedCourses, courseId];
+      setCompletedCourses(newCompletedCourses);
+      
+      // Get all unlocked courses based on what's completed
+      const newUnlockedCourses = getUnlockedCourses(newCompletedCourses);
+      setUnlockedCourses(newUnlockedCourses);
+    }
   };
 
   // Handle horizontal scrolling
   const handleScrollChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setScrollPosition(parseInt(e.target.value));
+  };
+
+  // Handle student change
+  const handleStudentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentStudentId(e.target.value);
   };
 
   // Get direct prerequisites - for display only
@@ -99,6 +190,63 @@ const CurriculumGraph: React.FC = () => {
 
   return (
     <div className="w-full min-h-[80vh] flex flex-col bg-background border border-border rounded-xl shadow-xl" ref={containerRef}>
+      {/* Student Selector */}
+      <div className="p-4 border-b border-border bg-card/30">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex-1">
+            <label htmlFor="student-selector" className="block text-sm font-medium mb-1">
+              Sélectionner un étudiant:
+            </label>
+            <select
+              id="student-selector"
+              value={currentStudentId}
+              onChange={handleStudentChange}
+              className="w-full md:max-w-md px-3 py-2 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+              {allStudents.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.name} ({student.parcours} - {student.niveau})
+                </option>
+              ))}
+            </select>
+          </div>
+          {studentInfo && (
+            <div className="bg-primary/5 px-4 py-3 rounded-lg border border-border">
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">Progression: <span className="text-primary">{completedCourses.length}/{graphData.nodes.length} cours</span></span>
+                <span className="text-xs text-foreground/80">{studentInfo.parcours} · {studentInfo.niveau} · {studentInfo.promotion}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+      
+      {/* Student Info */}
+      {studentInfo && (
+        <div className="p-3 border-b border-border bg-card/10">
+          <div className="flex flex-wrap justify-between items-center gap-3">
+            <div>
+              <h3 className="text-lg font-medium text-primary">{studentInfo.name}</h3>
+              <p className="text-sm text-foreground/80">Professeur: {studentInfo.teacher || 'Non assigné'}</p>
+            </div>
+            <div className="space-y-1">
+              {studentInfo.progression?.currentFocus && (
+                <div className="text-sm">
+                  <span className="font-medium">Focus actuel:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {studentInfo.progression.currentFocus.map((focus: string, idx: number) => (
+                      <span key={idx} className="inline-block px-2 py-1 bg-card text-xs rounded-full border border-border">
+                        {focus}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="p-6 border-b border-border backdrop-blur-sm">
         <h2 className="text-2xl md:text-3xl font-bold text-primary font-mono">Curriculum <span className="text-foreground font-sans">Skill Tree</span></h2>
         <p className="mt-2 text-foreground max-w-3xl">

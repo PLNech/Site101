@@ -49,3 +49,7 @@ src/
             ├── Legend.tsx              # Legend component
             ├── utils.tsx               # Utility functions
             └── types.ts                # Type definitions
+
+## Templates
+
+- https://nextjstemplates.com/templates/tailadmin-nextjs-admin-dashboard
