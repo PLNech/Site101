@@ -1,0 +1,63 @@
+name: Lint and Format
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  lint-and-format:
+    name: Run ESLint and Prettier
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Lint
+        run: npm run lint
+        
+      - name: Auto-fix linting issues
+        run: |
+          npm run lint -- --fix
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "🤖 Auto-fix linting issues"
+            git push
+          else
+            echo "No linting issues to fix"
+          fi
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        
+      - name: Install Prettier
+        run: npm install --no-save prettier@latest
+        
+      - name: Format code
+        run: npx prettier --write "**/*.{js,jsx,ts,tsx,json,css}"
+        
+      - name: Commit formatting changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "🤖 Auto-format code with Prettier"
+            git push
+          else
+            echo "No formatting changes to commit"
+          fi
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')

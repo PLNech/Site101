@@ -1,0 +1,75 @@
+name: Screenshot Testing
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  screenshots:
+    name: Capture and compare screenshots
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+        
+      - name: Build the application
+        run: npm run build
+        
+      - name: Start the application
+        run: npm run start &
+        
+      - name: Wait for application to start
+        run: |
+          echo "Waiting for application to start..."
+          timeout=60
+          while [ $timeout -gt 0 ]; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Application is running!"
+              break
+            fi
+            sleep 1
+            timeout=$((timeout-1))
+          done
+          if [ $timeout -eq 0 ]; then
+            echo "Failed to start application within timeout"
+            exit 1
+          fi
+        
+      - name: Create .github/screens directory if not exists
+        run: mkdir -p .github/screens
+        
+      - name: Take screenshots
+        run: |
+          npx playwright screenshot --device="Desktop Chrome" --viewport-size="1280,720" http://localhost:3000 .github/screens/home.png
+          npx playwright screenshot --device="Desktop Chrome" --viewport-size="1280,720" http://localhost:3000/student .github/screens/student.png
+        
+      - name: Check for visual changes
+        run: |
+          if [[ -n $(git status --porcelain .github/screens) ]]; then
+            echo "::warning::Visual changes detected. Please review the screenshots before merging."
+            git add .github/screens
+            git config --global user.name "GitHub Actions"
+            git config --global user.email "actions@github.com"
+            git commit -m "📸 Update screenshots [skip ci]"
+            
+            if [ "${{ github.event_name }}" == "push" ]; then
+              git push
+            fi
+          else
+            echo "No visual changes detected."
+          fi
