@@ -15,6 +15,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "101 Vitry | École de programmation",
   description: "Formation intensive aux métiers du numérique",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
@@ -23,11 +26,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="fr" className="dark scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-background to-background-dark text-foreground selection:bg-primary selection:text-white`}
       >
-        {children}
+        <div className="relative min-h-screen flex flex-col">
+          {children}
+        </div>
       </body>
     </html>
   );
